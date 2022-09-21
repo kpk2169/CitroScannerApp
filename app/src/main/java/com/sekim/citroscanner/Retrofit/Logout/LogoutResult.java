@@ -4,7 +4,7 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LogoutRepo {
+public class LogoutResult {
 
     @SerializedName("message")
     private String message;

@@ -7,6 +7,6 @@ import retrofit2.http.POST;
 public interface LogoutAPI {
 
     @POST("/logout")
-    Call<LogoutRepo> logout (@Header("Authorization") String authToken);
+    Call<LogoutResult> logout (@Header("Authorization") String authToken);
 
 }

@@ -4,7 +4,7 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LoginRepo {
+public class LoginResult {
 
     @SerializedName("status")
     private String status;
