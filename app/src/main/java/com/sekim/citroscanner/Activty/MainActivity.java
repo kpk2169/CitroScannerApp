@@ -1,8 +1,10 @@
-package com.sekim.citroscanner;
+package com.sekim.citroscanner.Activty;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.sekim.citroscanner.R;
 
 public class MainActivity extends AppCompatActivity {
 
