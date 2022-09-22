@@ -57,4 +57,9 @@ public class SplashActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         moveActivity(LoginActivity.class, 1000 );
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }
