@@ -10,14 +10,21 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.sekim.citroscanner.Activty.Login.LoginActivity;
+import com.sekim.citroscanner.Activty.UserInfo.UserInfoActivity;
 import com.sekim.citroscanner.R;
+import com.sekim.citroscanner.Utils.GetAppInfo;
 import com.sekim.citroscanner.Utils.PermissionCheck;
+import com.sekim.citroscanner.Utils.PhoneCall;
+import com.sekim.citroscanner.Utils.PreferenceManager;
 
 public class SettingsActivity extends AppCompatActivity {
 
     private ConstraintLayout clCamera, clVersion, clCs;
     private Button btnMoveInfoManager, btnLogout;
+    private TextView tvVersionName;
     private boolean cameraPermission;
 
     @Override
@@ -55,6 +62,49 @@ public class SettingsActivity extends AppCompatActivity {
 
             clVersion = findViewById(R.id.cl_version);
             clCs = findViewById(R.id.cl_cs_info);
+            clCs.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PhoneCall.call( getApplicationContext(), String.valueOf(R.string.cs_number).replace("-", "") );
+                }
+            });
+
+            btnMoveInfoManager = findViewById(R.id.btn_move_info_manager);
+            btnMoveInfoManager.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try{
+                        startActivity( new Intent( getApplicationContext(), UserInfoActivity.class));
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            btnLogout = findViewById(R.id.btn_logout);
+            btnLogout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try{
+                        PreferenceManager.setString( getApplicationContext() , PreferenceManager.USER_TOKEN, "");
+                        finishAffinity();
+                        startActivity(new Intent( getApplicationContext(), LoginActivity.class));
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            tvVersionName = findViewById(R.id.tv_version_name);
+            String versionName = GetAppInfo.version(getApplicationContext());
+            if( versionName != null && !versionName.equals("")){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvVersionName.setText(versionName);
+                    }
+                });
+            }
 
 
 
