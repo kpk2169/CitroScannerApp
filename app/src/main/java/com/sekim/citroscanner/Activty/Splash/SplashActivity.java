@@ -1,19 +1,17 @@
 package com.sekim.citroscanner.Activty.Splash;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
 import com.sekim.citroscanner.Activty.Home.HomeActivity;
 import com.sekim.citroscanner.Activty.Login.LoginActivity;
-import com.sekim.citroscanner.Preference.PreferenceManager;
+import com.sekim.citroscanner.Utils.PreferenceManager;
 import com.sekim.citroscanner.R;
 
 public class SplashActivity extends AppCompatActivity {
