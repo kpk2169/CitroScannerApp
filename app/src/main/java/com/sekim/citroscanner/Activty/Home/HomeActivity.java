@@ -55,7 +55,7 @@ public class HomeActivity extends AppCompatActivity {
             tvCsNumber.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent phoneCallIntent = new Intent(Intent.ACTION_DIAL , Uri.parse("tel:" + String.valueOf(R.string.cs_number)));
+                    Intent phoneCallIntent = new Intent(Intent.ACTION_DIAL , Uri.parse("tel:" + String.valueOf(R.string.cs_number).replace("-","") ));
                     startActivity(phoneCallIntent);
                 }
             });
