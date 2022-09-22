@@ -17,6 +17,7 @@ import com.sekim.citroscanner.Activty.Scanner.ScannerActivity;
 import com.sekim.citroscanner.Activty.Settings.SettingsActivity;
 import com.sekim.citroscanner.R;
 import com.sekim.citroscanner.Utils.PermissionCheck;
+import com.sekim.citroscanner.Utils.PhoneCall;
 import com.sekim.citroscanner.Utils.SettingDialog;
 
 public class HomeActivity extends AppCompatActivity {
@@ -55,8 +56,7 @@ public class HomeActivity extends AppCompatActivity {
             tvCsNumber.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent phoneCallIntent = new Intent(Intent.ACTION_DIAL , Uri.parse("tel:" + String.valueOf(R.string.cs_number).replace("-","") ));
-                    startActivity(phoneCallIntent);
+                    PhoneCall.call( getApplicationContext(), String.valueOf(R.string.cs_number).replace("-", "") );
                 }
             });
 
