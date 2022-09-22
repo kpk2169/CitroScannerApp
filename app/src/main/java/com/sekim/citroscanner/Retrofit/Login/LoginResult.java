@@ -29,7 +29,7 @@ public class LoginResult {
         return loginData;
     }
 
-    private class LoginData {
+    public class LoginData {
 
         @SerializedName("access_token_name")
         private String access_token_name;

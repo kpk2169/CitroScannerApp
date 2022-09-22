@@ -1,10 +1,10 @@
 package com.sekim.citroscanner.Retrofit.Login;
 
-public class LoginData {
+public class LoginParams {
 
     private String email, password;
 
-    public LoginData(String email, String password) {
+    public LoginParams(String email, String password) {
         this.email = email;
         this.password = password;
     }

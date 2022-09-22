@@ -8,7 +8,7 @@ public interface LoginAPI {
 
     @POST("/login")
     Call<LoginResult> login (
-            @Body LoginData loginData
+            @Body LoginParams loginData
     );
 
 }
