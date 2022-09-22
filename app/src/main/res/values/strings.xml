@@ -5,4 +5,5 @@
     <string name="cs_number">1811-6685</string>
     <string name="hint_email">아이디를 입력해주세요. ( 이메일 )</string>
     <string name="hint_password">비밀번호를 입력해주세요.</string>
+    <string name="warn_login">아이디 또는 비밀번호를 확인해 주세요.</string>
 </resources>

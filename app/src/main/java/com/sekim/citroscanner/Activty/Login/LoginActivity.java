@@ -142,6 +142,8 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
+                        }else{
+                            Toast.makeText(getApplicationContext(), String.valueOf(R.string.warn_login ) , Toast.LENGTH_SHORT).show();
                         }
 
                     }catch (Exception e){
