@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.sekim.citroscanner.Activty.Login.LoginActivity;
@@ -25,6 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
     private ConstraintLayout clCamera, clVersion, clCs;
     private Button btnMoveInfoManager, btnLogout;
     private TextView tvVersionName;
+    private Switch swCameraPermission;
     private boolean cameraPermission;
 
     @Override
@@ -40,6 +42,22 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         cameraPermission = PermissionCheck.check( getApplicationContext() , Manifest.permission.CAMERA );
+        changeSwitchStatus(cameraPermission);
+    }
+
+    private void changeSwitchStatus( boolean status){
+        try{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if( swCameraPermission != null ){
+                        swCameraPermission.setChecked(status);
+                    }
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void findViewById(){
@@ -105,6 +123,9 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                 });
             }
+
+            swCameraPermission = findViewById(R.id.sw_camera_permission);
+            swCameraPermission.setChecked( PermissionCheck.check( getApplicationContext() , Manifest.permission.CAMERA ) );
 
 
 
