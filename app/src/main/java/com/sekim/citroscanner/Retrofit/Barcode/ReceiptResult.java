@@ -1,10 +1,10 @@
-package com.sekim.citroscanner.Retrofit.Orders;
+package com.sekim.citroscanner.Retrofit.Barcode;
 
 import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class OrderResult {
+public class ReceiptResult {
 
     @SerializedName("status")
     private String status;
