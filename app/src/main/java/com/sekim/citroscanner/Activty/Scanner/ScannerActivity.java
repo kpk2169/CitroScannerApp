@@ -12,6 +12,8 @@ import com.sekim.citroscanner.R;
 public class ScannerActivity extends AppCompatActivity {
 
     private final String TAG = "SCANNER";
+    private final String PRODUCT = "products";
+    private final String Receipt = "orders";
     private String mode;
 
     @Override
