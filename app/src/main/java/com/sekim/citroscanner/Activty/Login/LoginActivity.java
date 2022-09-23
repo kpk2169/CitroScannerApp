@@ -17,7 +17,7 @@ import com.sekim.citroscanner.R;
 import com.sekim.citroscanner.Retrofit.Login.LoginAPI;
 import com.sekim.citroscanner.Retrofit.Login.LoginParams;
 import com.sekim.citroscanner.Retrofit.Login.LoginResult;
-import com.sekim.citroscanner.Retrofit.RetrofitClient;
+import com.sekim.citroscanner.Retrofit.RetrofitBuilder;
 import com.sekim.citroscanner.Utils.PatternList;
 import com.sekim.citroscanner.Utils.PreferenceManager;
 
@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        retrofit = RetrofitClient.RetrofitClient();
+        retrofit = RetrofitBuilder.RetrofitClient();
 
         findViewById();
 

@@ -12,22 +12,34 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sekim.citroscanner.Activty.Login.LoginActivity;
 import com.sekim.citroscanner.Activty.UserInfo.UserInfoActivity;
 import com.sekim.citroscanner.R;
+import com.sekim.citroscanner.Retrofit.RetrofitBuilder;
+import com.sekim.citroscanner.Retrofit.User.GetUserInfoResult;
+import com.sekim.citroscanner.Retrofit.User.UserAPI;
 import com.sekim.citroscanner.Utils.GetAppInfo;
 import com.sekim.citroscanner.Utils.PermissionCheck;
 import com.sekim.citroscanner.Utils.PhoneCall;
 import com.sekim.citroscanner.Utils.PreferenceManager;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class SettingsActivity extends AppCompatActivity {
 
     private ConstraintLayout clCamera, clVersion, clCs;
     private Button btnMoveInfoManager, btnLogout;
-    private TextView tvVersionName;
+    private TextView tvVersionName, tvUserName;
     private Switch swCameraPermission;
     private boolean cameraPermission;
+    private Retrofit retrofit;
+    private String userToken;
+    private final String intro = " 님\n안녕하세요.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +47,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         findViewById();
-
+        runGetUserInfo();
     }
 
     @Override
@@ -62,6 +74,10 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void findViewById(){
         try{
+
+            userToken = PreferenceManager.getString(getApplicationContext(), PreferenceManager.USER_TOKEN );
+
+            tvUserName = findViewById(R.id.tv_user_name);
 
             clCamera = findViewById(R.id.cl_camera_permission);
             clCamera.setOnClickListener(new View.OnClickListener() {
@@ -127,6 +143,47 @@ public class SettingsActivity extends AppCompatActivity {
             swCameraPermission = findViewById(R.id.sw_camera_permission);
             swCameraPermission.setChecked( PermissionCheck.check( getApplicationContext() , Manifest.permission.CAMERA ) );
 
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void runGetUserInfo(){
+        try{
+            retrofit = RetrofitBuilder.RetrofitClient();
+            UserAPI userAPI = retrofit.create( UserAPI.class );
+            Call<GetUserInfoResult> userAPICall = userAPI.getUserInfo( userToken );
+            userAPICall.enqueue(new Callback<GetUserInfoResult>() {
+                @Override
+                public void onResponse(Call<GetUserInfoResult> call, Response<GetUserInfoResult> response) {
+                    if( response.isSuccessful() ){
+                        GetUserInfoResult apiResult = response.body();
+                        if( apiResult.getStatus().equals("success") ){
+                            GetUserInfoResult.User.UserInfo userInfo = apiResult.getUser().getUserInfo();
+                            String userName = userInfo.getName();
+
+                            if( tvUserName != null ){
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        tvUserName.setText( userName + intro );
+                                    }
+                                });
+                            }
+                        }
+
+                    }else{
+                        Toast.makeText(getApplicationContext(), "인터넷 연결 상태를 확인해 주세요.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<GetUserInfoResult> call, Throwable t) {
+
+                }
+            });
 
 
         }catch (Exception e){

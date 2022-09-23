@@ -5,7 +5,7 @@ import com.sekim.citroscanner.R;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitClient {
+public class RetrofitBuilder {
 
     public static Retrofit RetrofitClient(){
 
