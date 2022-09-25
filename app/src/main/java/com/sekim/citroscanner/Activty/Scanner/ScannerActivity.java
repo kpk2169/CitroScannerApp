@@ -15,9 +15,11 @@ import android.widget.Toast;
 
 import com.google.zxing.client.result.ProductParsedResult;
 import com.sekim.citroscanner.Activty.Result.Product.ShowProductActivity;
+import com.sekim.citroscanner.Activty.Result.Receipt.ShowReceiptActivity;
 import com.sekim.citroscanner.R;
 import com.sekim.citroscanner.Retrofit.Barcode.BarcodeAPI;
 import com.sekim.citroscanner.Retrofit.Barcode.ProductResult;
+import com.sekim.citroscanner.Retrofit.Barcode.ReceiptResult;
 import com.sekim.citroscanner.Retrofit.RetrofitBuilder;
 import com.sekim.citroscanner.Utils.PreferenceManager;
 
@@ -162,6 +164,39 @@ public class ScannerActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<ProductResult> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), String.valueOf(R.string.api_err_msg), Toast.LENGTH_SHORT).show();
+                    //  바코드 초기화
+                }
+            });
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void runReceiptBarcodeAPI( String barcode ){
+        try{
+            Call<ReceiptResult> barcodeAPICall = barcodeAPI.getReceipt( userToken, barcode );
+            barcodeAPICall.enqueue(new Callback<ReceiptResult>() {
+                @Override
+                public void onResponse(Call<ReceiptResult> call, Response<ReceiptResult> response) {
+                    if ( response.isSuccessful() ){
+                        ReceiptResult apiResult = response.body();
+                        if( apiResult.getStatus().equals("success") ){
+                            String params = apiResult.getOrderData().getDetailOrderData().toString();
+                            Intent resultIntent = new Intent( getApplicationContext(), ShowReceiptActivity.class);
+                            resultIntent.putExtra("result", params );
+                            startActivity(resultIntent);
+                            finish();
+                        }else{
+                            Toast.makeText(getApplicationContext(), String.valueOf(R.string.api_err_msg), Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ReceiptResult> call, Throwable t) {
                     Toast.makeText(getApplicationContext(), String.valueOf(R.string.api_err_msg), Toast.LENGTH_SHORT).show();
                     //  바코드 초기화
                 }

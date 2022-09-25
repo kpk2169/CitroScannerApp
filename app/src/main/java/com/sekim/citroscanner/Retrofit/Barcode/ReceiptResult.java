@@ -30,15 +30,15 @@ public class ReceiptResult {
         return orderData;
     }
 
-    private class OrderData {
+    public class OrderData {
         @SerializedName("order")
-        private DetailData detailData;
+        private DetailOrderData detailData;
 
-        public DetailData getDetailData() {
+        public DetailOrderData getDetailOrderData() {
             return detailData;
         }
 
-        private class DetailData {
+        public class DetailOrderData {
             @SerializedName("id")
             private int id;
 
