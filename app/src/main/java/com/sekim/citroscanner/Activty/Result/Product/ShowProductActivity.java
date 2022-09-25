@@ -1,12 +1,14 @@
 package com.sekim.citroscanner.Activty.Result.Product;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,6 +19,9 @@ import com.google.zxing.BarcodeFormat;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.sekim.citroscanner.R;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class ShowProductActivity extends AppCompatActivity {
 
     private TextView tvName, tvBody, tvExcerpt, tvPrice;
@@ -24,6 +29,10 @@ public class ShowProductActivity extends AppCompatActivity {
     private Button btnHome, btnBack;
 
     private RecyclerView recyclerViewInfos;
+
+    private JSONObject productData;
+    private JSONArray productInfos;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +60,13 @@ public class ShowProductActivity extends AppCompatActivity {
             btnHome = findViewById(R.id.btn_move_home);
 
             recyclerViewInfos = findViewById(R.id.recycler_product_infos);
+            if( productInfos.length() > 0 ){
+                recyclerViewInfos.setVisibility( View.VISIBLE );
+
+                recyclerViewInfos.setLayoutManager( new LinearLayoutManager(this));
+                ProductInfosAdapter productInfosAdapter = new ProductInfosAdapter( productInfos );
+            }
+
 
         }catch (Exception e){
             e.printStackTrace();
