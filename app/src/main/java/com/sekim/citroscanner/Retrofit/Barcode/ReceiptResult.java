@@ -1,8 +1,11 @@
 package com.sekim.citroscanner.Retrofit.Barcode;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
+
+import org.json.JSONObject;
 
 public class ReceiptResult {
 
@@ -132,7 +135,7 @@ public class ReceiptResult {
             private String orderStatus;
 
             @SerializedName("order_changed_at")
-            private String order_changed_at;
+            private String orderChangedAt;
 
             @Nullable
             @SerializedName("memo")
@@ -154,13 +157,59 @@ public class ReceiptResult {
             @SerializedName("deleted_at")
             private String deletedAt;
 
+            @NonNull
+            @Override
+            public String toString() {
+
+                String returnValue = "";
+
+                try{
+                    JSONObject receiptJson = new JSONObject();
+
+                    receiptJson.put( "id" , id );
+                    receiptJson.put( "store_id" , storeId );
+                    receiptJson.put( "device_id" , deviceId );
+                    receiptJson.put( "order_number" , orderNumber );
+                    receiptJson.put( "order_code" , orderCode );
+                    receiptJson.put( "total_price" , totalPrice );
+                    receiptJson.put( "discount" , discount );
+                    receiptJson.put( "delivery_price" , deliveryPrice );
+                    receiptJson.put( "price_to_pay" , priceToPay );
+                    receiptJson.put( "vat" , vat );
+                    receiptJson.put( "order_type" , orderType );
+                    receiptJson.put( "package" , isPackage );
+                    receiptJson.put( "barcode" , barcode );
+                    receiptJson.put( "pay_status" , payStatus );
+                    receiptJson.put( "paid_at" , paidAt );
+                    receiptJson.put( "pickup_in" , pickupIn );
+                    receiptJson.put( "pickup_at" , pickupAt );
+                    receiptJson.put( "pickuped_at" , pickupedAt );
+                    receiptJson.put( "canceled_at" , canceledAt );
+                    receiptJson.put( "paymethod" , paymethod );
+                    receiptJson.put( "payment_service" , paymentService );
+                    receiptJson.put( "payment_corp" , paymentCorp );
+                    receiptJson.put( "customer_id" , customerId );
+                    receiptJson.put( "customer_name" , customerName );
+                    receiptJson.put( "customer_phone" , customerPhone );
+                    receiptJson.put( "plus_reward" , plusReward );
+                    receiptJson.put( "minus_reward" , orderStatus );
+                    receiptJson.put( "order_changed_at" , orderChangedAt );
+                    receiptJson.put( "memo" , memo );
+                    receiptJson.put( "show_status" , showStatus );
+                    receiptJson.put( "called_at" , calledAt );
+                    receiptJson.put( "created_at" , createdAt );
+                    receiptJson.put( "updated_at" , updatedAt );
+                    receiptJson.put( "deleted_at" , deletedAt );
+
+                    returnValue = receiptJson.toString();
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
 
 
-
-
-
-
-
+                return returnValue;
+            }
         }
 
     }
