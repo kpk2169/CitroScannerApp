@@ -1,8 +1,12 @@
 package com.sekim.citroscanner.Retrofit.Barcode;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -112,6 +116,44 @@ public class ProductResult {
 
         public String getBarcode() {
             return barcode;
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            String returnValue = "";
+
+            try{
+                JSONObject resultObject = new JSONObject();
+
+                resultObject.put("id", id );
+                resultObject.put("store_id", storeId );
+                resultObject.put("product_group_id", productGroupId );
+                resultObject.put("type", type );
+                resultObject.put("name", name );
+                resultObject.put("price", price );
+                resultObject.put("body", body );
+                resultObject.put("excerpt", excerpt );
+                resultObject.put("barcode", barcode );
+
+                JSONArray infoArr = new JSONArray();
+                for( int i = 0; i < productInfoList.size(); i++ ){
+                    ProductInfo info = productInfoList.get(i);
+                    JSONObject infoObj = new JSONObject();
+                    infoObj.put("title", info.getTitle());
+                    infoObj.put("body", info.getBody());
+                    infoArr.put( infoObj );
+                }
+
+                resultObject.put("infos", infoArr );
+
+                returnValue = resultObject.toString();
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            return returnValue;
         }
     }
 
