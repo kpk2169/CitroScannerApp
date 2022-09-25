@@ -17,8 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CitroScanner">
-        <activity android:name=".Activty.Result.ShowProductActivity"></activity>
-        <activity android:name=".Activty.Result.ShowReceiptActivity" />
+        <activity android:name=".Activty.Result.Product.ShowProductActivity"></activity>
+        <activity android:name=".Activty.Result.Receipt.ShowReceiptActivity" />
         <activity android:name=".Activty.UserInfo.UserInfoActivity" />
         <activity android:name=".Activty.Splash.SplashActivity" />
         <activity android:name=".Activty.Settings.SettingsActivity" />

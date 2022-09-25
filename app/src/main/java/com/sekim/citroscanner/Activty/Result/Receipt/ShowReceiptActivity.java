@@ -1,4 +1,4 @@
-package com.sekim.citroscanner.Activty.Result;
+package com.sekim.citroscanner.Activty.Result.Receipt;
 
 import androidx.appcompat.app.AppCompatActivity;
 
