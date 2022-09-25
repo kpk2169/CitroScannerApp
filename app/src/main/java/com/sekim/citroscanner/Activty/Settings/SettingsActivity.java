@@ -181,7 +181,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<GetUserInfoResult> call, Throwable t) {
-
+                    Toast.makeText(getApplicationContext(), "인터넷 연결 상태를 확인해 주세요.", Toast.LENGTH_SHORT).show();
                 }
             });
 

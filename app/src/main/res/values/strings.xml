@@ -7,4 +7,5 @@
     <string name="hint_password">비밀번호를 입력해주세요.</string>
     <string name="warn_login">아이디 또는 비밀번호를 확인해 주세요.</string>
     <string name="mode_tag">mode</string>
+    <string name="api_err_msg">잠시후 다시 시도해 주세요.</string>
 </resources>

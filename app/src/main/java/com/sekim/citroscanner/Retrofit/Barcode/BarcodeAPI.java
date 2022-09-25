@@ -11,5 +11,5 @@ public interface BarcodeAPI {
     Call<ReceiptResult> getReceipt(@Header("Authorization") String userToken , @Path("barcode") String barcode  );
 
     @GET("/products/barcodes/{barcode}")
-    Call<ReceiptResult> getProductInfo(@Header("Authorization") String userToken , @Path("barcode") String barcode  );
+    Call<ProductResult> getProductInfo(@Header("Authorization") String userToken , @Path("barcode") String barcode  );
 }

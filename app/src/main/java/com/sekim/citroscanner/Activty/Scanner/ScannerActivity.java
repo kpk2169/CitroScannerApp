@@ -13,7 +13,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.client.result.ProductParsedResult;
+import com.sekim.citroscanner.Activty.Result.Product.ShowProductActivity;
 import com.sekim.citroscanner.R;
+import com.sekim.citroscanner.Retrofit.Barcode.BarcodeAPI;
+import com.sekim.citroscanner.Retrofit.Barcode.ProductResult;
+import com.sekim.citroscanner.Retrofit.RetrofitBuilder;
+import com.sekim.citroscanner.Utils.PreferenceManager;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class ScannerActivity extends AppCompatActivity {
 
@@ -26,6 +37,9 @@ public class ScannerActivity extends AppCompatActivity {
     private Button btnNow;
     private ConstraintLayout clBtnChangeMode;
     private TextView tvMode;
+    private String userToken;
+    private Retrofit retrofit;
+    private BarcodeAPI barcodeAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +64,11 @@ public class ScannerActivity extends AppCompatActivity {
 
     private void findViewById(){
         try{
+            userToken = PreferenceManager.getString(getApplicationContext(), PreferenceManager.USER_TOKEN);
+
+            retrofit = RetrofitBuilder.RetrofitClient();
+            barcodeAPI = retrofit.create(BarcodeAPI.class);
+
             btnNow = findViewById(R.id.btn_now_mode);
             btnNow.setEnabled(false);
 
@@ -105,6 +124,7 @@ public class ScannerActivity extends AppCompatActivity {
             }
         });
     }
+
     private void changeBtnText( String leftStr, String rightStr ){
         runOnUiThread(new Runnable() {
             @Override
@@ -117,6 +137,39 @@ public class ScannerActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void runProductBarcodeAPI( String barcode ){
+        try{
+            Call<ProductResult> barcodeAPICall = barcodeAPI.getProductInfo( userToken, barcode );
+            barcodeAPICall.enqueue(new Callback<ProductResult>() {
+                @Override
+                public void onResponse(Call<ProductResult> call, Response<ProductResult> response) {
+                    if ( response.isSuccessful() ){
+                        ProductResult apiResult = response.body();
+                        if( apiResult.getStatus().equals("success") ){
+                            String params = apiResult.getProductData().getProductData().toString();
+                            Intent resultIntent = new Intent( getApplicationContext(), ShowProductActivity.class);
+                            resultIntent.putExtra("result", params );
+                            startActivity(resultIntent);
+                            finish();
+                        }else{
+                            Toast.makeText(getApplicationContext(), String.valueOf(R.string.api_err_msg), Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ProductResult> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), String.valueOf(R.string.api_err_msg), Toast.LENGTH_SHORT).show();
+                    //  바코드 초기화
+                }
+            });
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }
