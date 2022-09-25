@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -17,7 +18,9 @@ import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+import com.sekim.citroscanner.Activty.Scanner.ScannerActivity;
 import com.sekim.citroscanner.R;
+import com.sekim.citroscanner.Retrofit.User.StringFormatter;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -39,8 +42,26 @@ public class ShowProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_product);
 
+        getIntentParams();
         findViewById();
+        setProductData();
+    }
 
+    private void getIntentParams(){
+        try{
+            Intent getIntent = getIntent();
+            String getResultData = getIntent.getStringExtra("result");
+
+            productData = new JSONObject( getResultData );
+
+            if( productData != null ){
+                productInfos = productData.getJSONArray("infos");
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            finish();
+        }
     }
 
     private void findViewById(){
@@ -57,7 +78,26 @@ public class ShowProductActivity extends AppCompatActivity {
             setResizeImageView();
 
             btnBack = findViewById(R.id.btn_pre_screen);
+
+            btnBack.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try{
+                        startActivity(new Intent( getApplicationContext(), ScannerActivity.class ));
+                        finish();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+
             btnHome = findViewById(R.id.btn_move_home);
+            btnHome.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
 
             recyclerViewInfos = findViewById(R.id.recycler_product_infos);
             if( productInfos.length() > 0 ){
@@ -65,6 +105,7 @@ public class ShowProductActivity extends AppCompatActivity {
 
                 recyclerViewInfos.setLayoutManager( new LinearLayoutManager(this));
                 ProductInfosAdapter productInfosAdapter = new ProductInfosAdapter( productInfos );
+                recyclerViewInfos.setAdapter( productInfosAdapter );
             }
 
 
@@ -90,6 +131,46 @@ public class ShowProductActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private void setProductData(){
+        try{
+
+            String name = productData.getString("name");
+            int productPrice = productData.getInt("price");
+            String price = StringFormatter.getMoneyFormat( productPrice );
+            String body = productData.getString("body");
+            String excerpt = productData.getString("excerpt");
+            String barcodeStr = productData.getString("barcode");
+
+            setTextView( tvName, name );
+            setTextView( tvPrice , price );
+            setTextView( tvBody, body );
+            setTextView( tvExcerpt, excerpt );
+
+            createBarcodeImage(barcodeStr);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void setTextView( TextView targetTextView, String data ){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    if( data.equals("")){
+                        targetTextView.setVisibility(View.GONE);
+                    }else{
+                        targetTextView.setVisibility( View.VISIBLE );
+                        targetTextView.setText(data);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void createBarcodeImage( String barcodeData  ){
