@@ -21,6 +21,7 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.sekim.citroscanner.Activty.Scanner.ScannerActivity;
 import com.sekim.citroscanner.R;
 import com.sekim.citroscanner.Retrofit.User.StringFormatter;
+import com.sekim.citroscanner.Utils.BarcodeBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -175,13 +176,12 @@ public class ShowProductActivity extends AppCompatActivity {
 
     private void createBarcodeImage( String barcodeData  ){
         try{
-
-            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-            Bitmap bitmap = barcodeEncoder.encodeBitmap(  barcodeData, BarcodeFormat.CODE_128, 200, 100 );
-            if( imgBarcode != null ){
+            Bitmap bitmap = BarcodeBuilder.createBarcodeBitmap( BarcodeFormat.CODE_128, barcodeData);
+            if( imgBarcode != null && bitmap != null ){
                 imgBarcode.setImageBitmap(bitmap);
+            }else{
+                imgBarcode.setVisibility(View.GONE);
             }
-
         }catch (Exception e){
             e.printStackTrace();
         }
